@@ -13,4 +13,11 @@ VSCodeUserSetup-x64-1.86.2.exe /VERYSILENT /MERGETASKS=!runcode
 
 # Install Git
 curl https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
-./Git-2.46.0-64-bit.exe /LOADINF="git
+./Git-2.46.0-64-bit.exe /LOADINF="git.inf".
+
+
+#install VS Code extensions
+code --install-extension quantum.qsharp-lang-vscode	
+code --install-extension ms-toolsai.jupyter
+
+
