@@ -19,7 +19,9 @@ This should setup the following:
 
 Start VS Code:  Run the command "code".
 
-Select the mqit kernerl
+Select the mqit kernerl: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+
+Test: Open testQ.ipynb and execute
 
 
 
