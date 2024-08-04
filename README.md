@@ -18,28 +18,28 @@ The scripts are primarily intended for use on the generic LTU Virtual Desktop [V
 1. Open Powershell
 2. Get [VDI.zip](https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip):
 
-'''
+```
 curl -o VDI.zip https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip 
-'''
+```
 
 3. Unzip VDI.zip and change directory
 
-'''
+```
 Expand-Archive -Path .\VDI.zip
 cd VDI\environment-VDI
-'''
+```
 
 4. Run installation script:
 
-'''
+```
 .\ConfigureEnvironment.ps1
-'''
+```
 
 5.  Start VS Code:  
 
-'''
+```
 code
-'''
+```
 
 6.  Select the mqit kernel: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
 
