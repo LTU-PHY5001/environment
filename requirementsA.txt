@@ -5,8 +5,4 @@ jupyterlab_code_formatter
 jupyterlab-spreadsheet-editor
 jupyterlab-drawio
 ipympl
-pytest 
-voila
-matplotlib==3.8.4
-pyQuirk
-ipykernel
+pyt

@@ -7,4 +7,3 @@ voila
 matplotlib
 pyQuirk
 qiskit
-
