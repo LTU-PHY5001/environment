@@ -1,4 +1,4 @@
-# Scripts for configuring MQIT software environment
+# Scripts for configuring MQIT software environment on Windows 10
 
 This repository contains scripts that can be used to configure a development environmenton Windows 10 for workshop activities on in MQIT subjects. 
 
@@ -7,23 +7,45 @@ The scripts are primarily intended for use on the generic LTU Virtual Desktop [V
 
 ## Instructions
 
-1. Download [https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip](https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip) and unzip.
-2. Run ConfigureEnvironment.ps1 in Powershell
-
-This should setup the following:
+**Overview:** Download [https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip](https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip), unzip and run ConfigureEnvironment.ps1.  This will install the following:
 1. Python environment ('mqit-env')
 2. QDK 
 3. VS Code
 4. VS Code extensions for Python, Jupyter, and Q#
 5. Git
 
-Start VS Code:  Run the command "code".
+**Details:**
+1. Open Powershell
+2. Get [VDI.zip](https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip):
 
-Select the mqit kernerl: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+'''
+curl -o VDI.zip https://github.com/LTU-PHY5001/environment/archive/refs/tags/VDI.zip 
+'''
 
-Test: Open testQ.ipynb and execute
+3. Unzip VDI.zip and change directory
 
+'''
+Expand-Archive -Path .\VDI.zip
+cd VDI\environment-VDI
+'''
 
+4. Run installation script:
+
+'''
+.\ConfigureEnvironment.ps1
+'''
+
+5.  Start VS Code:  
+
+'''
+code
+'''
+
+6.  Select the mqit kernel: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+
+7. Test: Open testQ.ipynb and execute
+
+ls
 
 ## Notes
 
@@ -35,7 +57,7 @@ Dotnet is required to installed IQSharp.  The script currently assumes that Dotn
 
 The "Quantum Playground" is unusuable on the VDI due to firewall restrictions.
 
-## Todo./
+## Todo.
 
 1. Replace windows-specific scripts with platform independent scripts. 
 2. Add docker based solution (coming soon)
