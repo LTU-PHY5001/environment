@@ -4,13 +4,5 @@ jupyterlab_code_formatter
 #jupyterlab-git
 jupyterlab-spreadsheet-editor
 jupyterlab-drawio
-ipykernel
 ipympl
-qsharp
-qdk
-azure-quantum
-pytest 
-voila
-matplotlib
-pyQuirk
-qiskit
+pyt
