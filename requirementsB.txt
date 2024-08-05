@@ -1,9 +1,0 @@
-ipympl
-qsharp
-qdk
-azure-quantum
-pytest 
-voila
-matplotlib
-pyQuirk
-qiskit

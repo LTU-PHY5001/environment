@@ -5,4 +5,13 @@ jupyterlab_code_formatter
 jupyterlab-spreadsheet-editor
 jupyterlab-drawio
 ipympl
-pyt
+pytest 
+voila
+matplotlib==3.8.4
+ipykernel
+qsharp
+qsharp-widgets
+azure-quantum
+#qdk
+pyQuirk
+qiskit
