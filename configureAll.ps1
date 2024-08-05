@@ -1,54 +1,6 @@
 # G. van Riessen, LTU 2024
 
-
-#check if python is installed
-# redirect stderr into stdout
-$p = &{python -V} 2>&1
-$version = if($p -is [System.Management.Automation.ErrorRecord])
-{
-    # grab the version string from the error message
-    $p.Exception.Message
-    $pythonVersion = "3.9" 
-    $pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$pythonVersion-amd64.exe" 
-    
-    #$installDir = "C:\Python" 
-    
-    # Download Python installer 
-    Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile "$env:TEMP\python-installer.exe" 
-    
-    # Install Python silently 
-    #Start-Process -FilePath "$env:TEMP\python-installer.exe" -ArgumentList "/quiet", "InstallAllUsers=0", "PrependPath=1", "DefaultCustomInstall=1", "DefaultPath=$installDir" -Wait 
-    Start-Process -FilePath "$env:TEMP\python-installer.exe" -ArgumentList "/quiet", "InstallAllUsers=0", "PrependPath=1", "DefaultCustomInstall=1" -Wait 
-    
-    # Clean up 
-    Remove-Item "$env:TEMP\python-installer.exe" -Force
-
-}
-else 
-{
-    # otherwise return as is
-    $p
-}
-
-
-# create virtual environment (python)
-pip install virtualenv
-python -m venv "$($env:USERPROFILE)\mqit"
-
-# Activate new virtual environment (save wd, activate change back to saved wd)
-$currentDirectory = Get-Location
-Set-Location "$($env:USERPROFILE)\mqit\Scripts\"
-./Activate.ps1
-Set-Location "$($currentDirectory)"
-
-# install first group of components
-pip install --no-cache -r requirementsA.txt 
-
-# create a python kernel
-python -m ipykernel install --user --name=mqit_kernel 
-
-#install second group of components, some of which depend on pre-installation of Jupyter.
-pip install --no-cache -r requirementsB.txt 
+./configurePython
 
 
 # install VS Code. Should be possible to user powershell, i.e. "Install-Script Install-VSCode; Install-VSCode.ps1 -AdditionalExtensions 'ms-azuretools.vscode-azurefunctions', 'ms-python.python'", but it requires admin privileges.
@@ -101,3 +53,12 @@ foreach ($ext in $extensions) {
         code --install-extension $ext
     }
 }
+
+# get extensions as vsix files
+#mkdir extensions
+#curl -o https://ms-python.gallery.vsassets.io/_apis/public/gallery/publisher/ms-python/extension/ms-python.python/2024.13.2024080201/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
+#https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
+
+c#d extensions
+## install all extensions from vsix files
+Get-ChildItem . -Filter *.vsix | ForEach-Object { code --install-extension $_.FullName }

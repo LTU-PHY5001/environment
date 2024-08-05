@@ -45,7 +45,7 @@ code
 
 7. Test: Open testQ.ipynb and execute
 
-ls
+
 
 ## Notes
 
@@ -53,4 +53,11 @@ Scripts are tested on Windows 10 and use web-scraping, which is inherently britt
 
 Python 3.9 is installed on VDI, but the script will check for existance of Python and if no version is available, it will installed Python 3.9.
 
-Dotnet is required to installed IQSharp.  The script curren
+Dotnet is required to installed IQSharp.  The script currently assumes that Dotnet is installed (assumption OK for VDI).  Dotnet can be downloaded here from [https://dotnet.microsoft.com/en-us/download](https://dotnet.microsoft.com/en-us/download)
+
+The "Quantum Playground" is unusuable on the VDI due to firewall restrictions.
+
+## Todo.
+
+1. Replace windows-specific scripts with platform independent scripts. 
+2. Add docker based solution (coming soon)
