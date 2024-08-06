@@ -7,3 +7,6 @@ curl -o GitInstall.exe https://github.com/git-for-windows/git/releases/download/
 $PATH = [Environment]::GetEnvironmentVariable("PATH")
 $git_path = "$($env:LOCALAPPDATA)\Programs\Git\bin"
 [Environment]::SetEnvironmentVariable("PATH", "$PATH;$git_path")
+
+Remove-item GitInstall.exe 
+

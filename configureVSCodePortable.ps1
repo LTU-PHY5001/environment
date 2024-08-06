@@ -4,9 +4,10 @@
 $minVersion = [Version]"1.8.0"
 $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
 $mqitPath = "$($env:USERPROFILE)\mqit"
-$downloadPath =  "$($env:LOCALAPPDATA)\mqit\VSCode.zip" 
-$dataPath = "$($env:USERPROFILE)\mqit\VSCode\Data"
-$codeExePath = "$($env:USERPROFILE)\mqit\VSCode\Code.exe"
+$downloadPath =  "$mqitpath\VSCode.zip" 
+$dataPath = "$mqitpath\VSCode\Data"
+$codeExePath = "$mqitpath\VSCode\"
+$codeExe = "$codeExePath\Code.exe"
 $extensions = @("ms-python.python",
               "quantum.qsharp-lang-vscode",
               "ms-toolsai.jupyter")
@@ -14,7 +15,6 @@ $extensions = @("ms-python.python",
 
 Write-Host "`n Installing portable instance of VS Code"
  
-    
 # create directory if not exists
 if (!(test-path $mqitPath))
 {
@@ -22,23 +22,26 @@ if (!(test-path $mqitPath))
 }
 
 # Get VS Code archive (zip file), expand it.
-& curl -o $destination $vscodeurl
-& $destination /VERYSILENT /NORESTART  /CURRENTUSER /MERGETASKS=!runcode
+& curl -o $downloadPath $vscodeurl
+cd $downloadPath
 Expand-Archive -Path $downloadPath
-=New-Item -ItemType Directory $dataPath
 
 
-# By default, VS Code is installed under C:\Users\{Username}\AppData\Local\Programs\Microsoft VS Code.
+#Make Data folder to store configuration
+New-Item -ItemType Directory $dataPath
 
-# Setup will add VS Code to  %PATH%, but this requires a restart of powershell. Let's do it explicitly
-$PATH = [Environment]::GetEnvironmentVariable("PATH")
-$code_path = "$($env:LOCALAPPDATA)\Programs\Microsoft VS Code"
-[Environment]::SetEnvironmentVariable("PATH", "$PATH;$code_path")
+# Add to path
+#$PATH = [Environment]::GetEnvironmentVariable("PATH")
+#$code_path = "$($env:LOCALAPPDATA)\Programs\Microsoft VS Code"
+#[Environment]::SetEnvironmentVariable("PATH", "$PATH;$code_path")
 
-Remove-item $destination
+Remove-item $downloadPath
 
 # Install any extensions
 foreach ($extension in $extensions) {
     Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
-    & $codeExePath --install-extension $extension
+    & $codeExe --install-extension $extension
 }
+
+
+Write-Host "`n Code installed at $codeExePath.  Start code with $codeExe."

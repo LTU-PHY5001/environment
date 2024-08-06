@@ -4,6 +4,8 @@ jupyterlab_code_formatter
 #jupyterlab-git
 jupyterlab-spreadsheet-editor
 jupyterlab-drawio
+jupyterquiz
+ipylab
 ipympl
 pytest 
 voila
@@ -15,3 +17,4 @@ azure-quantum
 #qdk
 pyQuirk
 qiskit
+
