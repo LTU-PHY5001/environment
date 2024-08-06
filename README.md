@@ -2,7 +2,9 @@
 
 This repository contains scripts that can be used to configure a development environment on Windows 10 for workshop activities on in MQIT subjects. 
 
-For our purposes it is convenient to use a 'portable' instance of VS Code that is independent of most of the software pre-installed on the LTU laboratory computers. The required VS-Code extensions will be installed, a python virtual environment created together with a kernel created for use with Jupyter notebooks.  
+The development environment is based on Azure Quantum Development kit with Python and Jupyter.  Visual Studio Code will be used to write, debug and execute code in Q# and Python. 
+
+For our purposes it is convenient to use a 'portable' instance of VS Code that is independent of most of the software pre-installed on the LTU laboratory computers. The required VS-Code extensions will be installed, a python virtual environment created together with Python and Q# kernels created for use with Jupyter notebooks.  
 
  This same approach  should work on the on the LTU Virtual Desktop [VDI](https://www.latrobe.edu.au/students/support/it/teaching/myapps) or your own Windows 10/11 device.  Administrator privileges are not required and the configuration should not affect existing installations of VS Code, python, etc.  
 
@@ -45,11 +47,19 @@ The portable instance of VS Code is installed at $($env:USERPROFILE)\mqit\VSCode
 
 Note: The "Quantum Playground" is unusuable on the VDI due to firewall restrictions.
 
+## Next Steps
 
-## Notes
+See:
+1. [Load a Q# sample program](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#load-a-q-sample-program).
+2. [Run a Q# program](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#run-a-q-program)
+3. [Visualise the frequency histogram](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#visualize-the-frequency-histogram)
+4. [Visualise the Quantum Circuit](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#visualize-the-quantum-circuit)
+4. [Connect to Azure Quantum and submit your job](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#connect-to-azure-quantum-and-submit-your-job)
 
-Scripts are tested on Windows 10 and use web-scraping, which is inherently brittle.
+## Requirements
 
+Powershell
+Dotnet
 
 ## Todo.
 

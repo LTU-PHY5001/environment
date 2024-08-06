@@ -4,6 +4,8 @@
 $minVersion = [Version]"1.8.0"
 $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
 $mqitPath = "$($env:USERPROFILE)\mqit"
+$venvPath = "$mqitPath\mqit-env\"
+$activateEnvCmd = "$venvPath\Scripts\Activate.ps1"
 $downloadPath =  "$mqitpath\VSCode.zip" 
 $dataPath = "$mqitpath\VSCode\Data"
 $codeExePath = "$mqitpath\VSCode\"
@@ -23,7 +25,7 @@ if (!(test-path $mqitPath))
 
 # Get VS Code archive (zip file), expand it.
 & curl -o $downloadPath $vscodeurl
-cd $downloadPath
+cd $mqitpath
 Expand-Archive -Path $downloadPath
 
 
@@ -36,6 +38,13 @@ New-Item -ItemType Directory $dataPath
 #[Environment]::SetEnvironmentVariable("PATH", "$PATH;$code_path")
 
 Remove-item $downloadPath
+
+# install IQ# (note that it happens automatically when using Conda, not pip or via Code extensions)
+#first switch to mqit-env virtual environment
+& $activateEnvCmd
+dotnet tool install -g Microsoft.Quantum.IQSharp
+dotnet iqsharp install --user
+
 
 # Install any extensions
 foreach ($extension in $extensions) {
