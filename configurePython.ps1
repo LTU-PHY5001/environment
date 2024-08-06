@@ -1,4 +1,14 @@
 
+$mqitPath = "$($env:USERPROFILE)\mqit"
+
+# create directory if not exists
+
+if (!(test-path $mqitPath))
+{
+    New-Item -ItemType Directory $mqitPath
+}
+
+
 #check if python is installed
 # redirect stderr into stdout
 $p = &{python -V} 2>&1
@@ -28,14 +38,14 @@ else
     $p
 }
 
-
+#
 # create virtual environment (python)
-pip install virtualenv
-python -m venv "$($env:USERPROFILE)\mqit"
+pip install --no-cache virtualenv
+python -m venv "$($env:USERPROFILE)\mqit\mqit-env"
 
 # Activate new virtual environment (save wd, activate change back to saved wd)
 $currentDirectory = Get-Location
-Set-Location "$($env:USERPROFILE)\mqit\Scripts\"
+Set-Location "$($env:USERPROFILE)\mqit\mqit-env\Scripts\"
 ./Activate.ps1
 Set-Location "$($currentDirectory)"
 

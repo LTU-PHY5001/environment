@@ -1,23 +1,36 @@
 
 # install VS Code. Should be possible to user powershell, i.e. "Install-Script Install-VSCode; Install-VSCode.ps1 -AdditionalExtensions 'ms-azuretools.vscode-azurefunctions', 'ms-python.python'", but it requires admin privileges.
 
-$minVersion = [version]"1.1.0"
+$minVersion = [Version]"1.8.0"
 $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user"
 $destination = "$env:TEMP\vscode_installer.exe"
+$codeExePath = "$($env:LOCALAPPDATA)\Programs\Microsoft VS Code\bin\code.exe"
 $extensions =
     "ms-python.python",
     "quantum.qsharp-lang-vscode",
     "ms-toolsai.jupyter"
 
+Write-Host "`nWill check version of VS Code that is installed "
+
+
+
 
 #check if acceptable version already installed:
 $v = get-package "Microsoft Visual Studio Code"
 $version = [Version]$v.Attributes.Values[1]
-if $version -gt $minVersion 
-{
+if ($version -gt $minVersion) {
+    
+    Write-Host "`nInstalled version of Code is  $version.  Required > $minVersion. Doing nothing."
 
-    curl -o $destination $vscodeurl
-    .\VSCodeUserSetup.exe /VERYSILENT /NORESTART  /CURRENTUSER /MERGETASKS=!runcode
+}
+else
+{
+    Write-Host "`nVersion of VS Code is too old.  Need version > $minVersion.  Have $version..." -ForegroundColor Red
+    Write-Host "`nInstalling current version...."
+ 
+    
+    & curl -o $destination $vscodeurl
+    & $destination /VERYSILENT /NORESTART  /CURRENTUSER /MERGETASKS=!runcode
 
     # By default, VS Code is installed under C:\Users\{Username}\AppData\Local\Programs\Microsoft VS Code.
 
@@ -27,20 +40,22 @@ if $version -gt $minVersion
     [Environment]::SetEnvironmentVariable("PATH", "$PATH;$code_path")
 
     Remove-item $destination
-}
 
 
-#install VS Code extensions
-
-$cmd = "code --list-extensions"
-Invoke-Expression $cmd -OutVariable output | Out-Null
-$installed = $output -split "\s"
-
-foreach ($ext in $extensions) {
-    if ($installed.Contains($ext)) {
-        Write-Host $ext "already installed." -ForegroundColor Gray
-    } else {
-        Write-Host "Installing" $ext "..." -ForegroundColor White
-        code --install-extension $ext
+    # Install any extensions
+    if ($PSCmdlet.ShouldProcess(($extensions -join ','), "$codeExePath --install-extension")) {
+        if ($IsLinux -or $IsMacOS) {
+            # On *nix we need to install extensions as the user -- VSCode refuses root
+            $extsSlashes = $extensions -join '/'
+            sudo -H -u $env:SUDO_USER pwsh -c "`$exts = '$extsSlashes' -split '/'; foreach (`$e in `$exts) { $codeExePath --install-extension `$e }"
+        }
+        else {
+            foreach ($extension in $extensions) {
+                Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
+                & $codeExePath --install-extension $extension
+            }
+        }
     }
+
 }
+
