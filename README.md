@@ -20,7 +20,7 @@ curl -o MQIT-Portable.zip https://github.com/LTU-PHY5001/environment/archive/ref
 
 ```
 Expand-Archive -Path .\MQIT-Portable.zip
-cd VDI\environment-VDI
+cd MQIT-Portable\environment-MQIT-Portable\
 ```
 
 4. Run installation scripts:
@@ -28,19 +28,20 @@ cd VDI\environment-VDI
 ```
 .\installGit.ps1
 .\configurePython.ps1
-.\configureVSCOdePortable.ps1
+.\configureVSCodePortable.ps1
 ```
 
-5.  Start VS Code:  
+The final part of the script configureVSCodePortable.ps1 attempts to install VS Code Extensions, which may fail.  If so, start VS Code and manually install the following extensions.
+1. Python (ms-python.python)
+2. Jupyter (ms-toolsai.jupyter)
+3. Azure Quantum Development Kit (quantum.qsharp-lang-vscode)
 
-```
-.\
-```
+The portable instance of VS Code is installed at $($env:USERPROFILE)\mqit\VSCode\Code.exe
 
-6.  Test:
+5.  Test:
     Select the mqit kernel: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
 
-7. Test: Open testQ.ipynb and execute
+6. Test: Open testQ.ipynb and execute
 
 Note: The "Quantum Playground" is unusuable on the VDI due to firewall restrictions.
 
@@ -52,5 +53,6 @@ Scripts are tested on Windows 10 and use web-scraping, which is inherently britt
 
 ## Todo.
 
-1. Replace windows-specific scripts with platform independent scripts. 
-2. Add docker based solution (coming soon)
+1. Need a more robust way of installing VS Code extensions
+2. Replace windows-specific scripts with platform independent scripts. 
+3. Add docker based solution (coming soon)
