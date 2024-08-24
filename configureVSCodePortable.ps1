@@ -3,7 +3,12 @@
 
 $minVersion = [Version]"1.8.0"
 $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
-$mqitPath = "$($env:USERPROFILE)\mqit"
+
+
+#$mqitPath = "$($env:USERPROFILE)\mqit"
+$currentDirectory = Get-Location
+$mqitPath = "$currentDirectory\mqit"
+
 $venvPath = "$mqitPath\mqit-env\"
 $activateEnvCmd = "$venvPath\Scripts\Activate.ps1"
 $downloadPath =  "$mqitpath\VSCode.zip" 
@@ -28,7 +33,6 @@ if (!(test-path $mqitPath))
 cd $mqitpath
 Expand-Archive -Path $downloadPath
 
-
 #Make Data folder to store configuration
 New-Item -ItemType Directory $dataPath
 
@@ -45,12 +49,12 @@ Remove-item $downloadPath
 dotnet tool install -g Microsoft.Quantum.IQSharp
 dotnet iqsharp install --user
 
-
 # Install any extensions
 foreach ($extension in $extensions) {
     Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
     & $codeExe --install-extension $extension
 }
 
-
 Write-Host "`n Code installed at $codeExePath.  Start code with $codeExe."
+
+Set-Location $currentDirectory
