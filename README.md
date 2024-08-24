@@ -58,8 +58,8 @@ See:
 
 ## Requirements
 
-Powershell
-Dotnet
+1. Powershell
+2. Dotnet
 
 ## Todo.
 
