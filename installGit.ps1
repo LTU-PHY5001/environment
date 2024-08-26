@@ -19,7 +19,7 @@ $git_path = "$($env:LOCALAPPDATA)\Programs\Git\bin"
 [Environment]::SetEnvironmentVariable("PATH", "$PATH;$git_path")
 
 try {
-    Remove-item "./GitInstall.exe"
+    Remove-item "g./GitInstall.exe"
     }
 catch {
     Write-Host "Removing $installer failed"
