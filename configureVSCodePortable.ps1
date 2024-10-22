@@ -49,6 +49,8 @@ Remove-item $downloadPath
 dotnet tool install -g Microsoft.Quantum.IQSharp
 dotnet iqsharp install --user
 
+Set-Location $currentDirectory
+
 # Install any extensions
 foreach ($extension in $extensions) {
     Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
