@@ -19,10 +19,3 @@ catch {
     }
 
 
-try {
-    Remove-item "./GitInstall.exe"
-    }
-catch {
-    Write-Host "Removing $installer failed"
-    }
-
