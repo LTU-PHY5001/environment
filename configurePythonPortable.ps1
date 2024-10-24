@@ -56,14 +56,13 @@ pip install --no-cache virtualenv
 python -m venv "$mqitPath\mqit-env"
 
 # Activate new virtual environment (save wd, activate change back to saved wd)
-$currentDirectory = Get-Location
 Set-Location "$mqitPath\mqit-env\Scripts\"
 ./Activate.ps1
 Set-Location "$($currentDirectory)"
 
 # install python packages
 Set-Location $currentDirectory
-pip install --no-cache -r requirements.txt 
+pip install --no-cache -r "$($currentDirectory)/requirements.txt"
 
 # create a python kernel
 python -m ipykernel install --user --name=mqit_kernel 
