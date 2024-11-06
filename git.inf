@@ -1,6 +1,5 @@
 [Setup]
 Lang=default
-Dir=$git_path
 Group=Git
 NoIcons=1
 SetupType=default
