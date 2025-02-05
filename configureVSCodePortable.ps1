@@ -52,10 +52,10 @@ dotnet iqsharp install --user
 Set-Location $currentDirectory
 
 # Install any extensions
-foreach ($extension in $extensions) {
-    Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
-    & $codeExe --install-extension $extension
-}
+#foreach ($extension in $extensions) {
+#    Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
+#    & $codeExe --install-extension $extension
+#}
 
 Write-Host "`n Code installed at $codeExePath.  Start code with $codeExe."
 
