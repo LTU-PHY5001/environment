@@ -49,20 +49,22 @@ Alternatively, install the major pieces one at a time:
 .\configurePythonPortable.ps1
 .\configureVSCodePortable.ps1
 ```
-
-The final part of the script configureVSCodePortable.ps1 attempts to install VS Code Extensions, which may fail.  If so, start VS Code and manually install the following extensions.
-1. Python (ms-python.python)
-2. Jupyter (ms-toolsai.jupyter)
-3. Azure Quantum Development Kit (quantum.qsharp-lang-vscode)
+4. Install Extensions
 
 The portable instance of VS Code is installed at .\mqit\VSCode\Code.exe
 
-5.  Test:
-    Select the mqit kernel: Open the Kernel Picker button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+Start VS Code and install the following extensions:
+1. Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
+2. Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
+3. Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
 
-6. Test: Open testQ.ipynb and execute
+See [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend) for instructions for finding and installing extensions.
 
-Note: The "Quantum Playground" is unusuable on the VDI due to firewall restrictions.
+
+6.  Test:
+   
+    Open `test/testQ.ipynb` and follow instructions in the notebook for testing that you can use Q# and Python.  Note that the first step in these tests is the same first step you will follow to use Q# in any other Jupyter notebook, which is to select the mqit kernel.  This is done by opening the Kernel Picker via the "Select Kernel" button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+
 
 ## Next Steps
 
@@ -78,9 +80,3 @@ See:
 1. Powershell
 2. Dotnet
 
-## Todo.
-
-1. Need a more robust way of installing VS Code extensions
-2. Replace windows-specific scripts with platform independent scripts. 
-3. Add docker based solution (coming soon)
-4. Need a portable installation of Git
