@@ -25,7 +25,7 @@ Expand-Archive -Path .\MQIT-Portable.zip
 cd MQIT-Portable\environment-MQIT-Portable\
 ```
 
-4. Run installation scripts:
+4. Run installation script:
 
 Run 
 
@@ -42,13 +42,6 @@ The python virtual environment will be automatically activated by the script.  I
 .\mqit\mqit-env\activate
 ``
 
-Alternatively, install the major pieces one at a time:
-
-```
-.\installGit.ps1
-.\configurePythonPortable.ps1
-.\configureVSCodePortable.ps1
-```
 4. Install Extensions
 
 The portable instance of VS Code is installed at .\mqit\VSCode\Code.exe
