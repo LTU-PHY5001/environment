@@ -66,9 +66,9 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
     The mqit python virtual environment will be activated during the above installation.  In a new session (or new powershell instance) you will need to activate the python environment by running the following command from the location where you installed or relocated the mqit folder:
 
-    ``
+    ```
     .\mqit\mqit-env\activate
-    ``
+    ```
 
 ## Next Steps
 
