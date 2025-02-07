@@ -60,9 +60,9 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
     Follow the instructions in the Jupyter notebook 'testQ.ipynb' for testing that you can use Q# and Python.  Note that the first step in these tests is the same first step you will follow to use Q# in any other Jupyter notebook, which is to select the mqit kernel.  This is done by opening the Kernel Picker via the "Select Kernel" button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
 
 
-7. Move installed components to another location [optional]
+7. Move installed components to another location *[optional]*
 
-    You can move the portable versions of Python and VS-Code by copying the directory 'mqit' (at'.\MQIT-Portable\environment-MQIT-Portable\mqit') to  another location (e.g.your oneDrive folder or external disk).   You will be able to launch VS-Code from that location next time you use the  Note that you will need to update PATH environment variables for code.exe and python to be conveniently used.
+    You can move the portable versions of Python and VS-Code by copying the directory 'mqit' (at .\MQIT-Portable\environment-MQIT-Portable\mqit) to  another location (e.g.your oneDrive folder or external disk).   You will be able to launch VS-Code from that location next time you use the  Note that you will need to update PATH environment variables for code.exe and python to be conveniently used.
 
     The mqit python virtual environment will be activated during the above installation.  In a new session (or new powershell instance) you will need to activate the python environment by running the following command from the location where you installed or relocated the mqit folder:
 
