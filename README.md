@@ -39,18 +39,19 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
     Start VS-Code from .\MQIT-Portable\environment-MQIT-Portable\mqit\VSCode\code.exe using the following command:
 
     ```
-    .\MQIT-Portable\environment-MQIT-Portable\mqit\VSCode\code.exe  .\MQIT-Portable\environment-MQIT-Portable\mqit\test\
+    & ".\MQIT-Portable\environment-MQIT-Portable\mqit\VSCode\code.exe" .\MQIT-Portable\environment-MQIT-Portable\mqit\test\
     ```
 
 6. Install VS-Code Extensions
 
-   Install the following extensions:
-    1. Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
-    2. Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
-    3. Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
 
-    See [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend) for instructions for finding and installing extensions.
+To install required extensions, open the 'Extensions' view in the VS Code sidebar, or press F1 and select "Extensions: Install Extensions" from the quick menu, and search for the following:
 
+1. Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
+2. Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
+3. Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
+
+For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
 
 6.  Test:
    
