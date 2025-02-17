@@ -6,8 +6,7 @@ The development environment is based on Azure Quantum Development kit with Pytho
 
 For our purposes it is convenient to use a 'portable' instance of VS Code that is independent of most of the software pre-installed on the LTU laboratory computers. The required VS-Code extensions will be installed, a python virtual environment created together with Python and Q# kernels created for use with Jupyter notebooks.  
 
-
-**Follow these steps:**
+## <a name="instructions"></a> Instructions for Installation on PS1 Laboratory Computers
 
 1. Open Powershell
 2. Get [MQIT-Portable](https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip)
