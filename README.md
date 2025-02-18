@@ -17,6 +17,7 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
     curl -o MQIT-Portable.zip https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip
     Expand-Archive -Path .\MQIT-Portable.zip
     
+    
     ```
 
 
@@ -33,10 +34,10 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 5. Open the installed version of VS-Code
 
-    Start VS-Code from .\MQIT-Portable\environment-MQIT-Portable\mqit\VSCode\code.exe using the following command:
+    Start VS-Code from .\mqit\VSCode\code.exe using the following command:
 
     ```
-    & ".\MQIT-Portable\environment-MQIT-Portable\mqit\VSCode\code.exe" .\MQIT-Portable\environment-MQIT-Portable\mqit\test\
+    & ".\mqit\VSCode\code.exe" .\
     ```
 
 6. Install VS-Code Extensions
@@ -44,41 +45,30 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 To install required extensions, open the 'Extensions' view in the VS Code sidebar, or press F1 and select "Extensions: Install Extensions" from the quick menu, and search for the following:
 
-1. Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
-2. Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
-3. Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
+- Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
+- Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
+- Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
 
 For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
 
 6.  Test:
    
-    Open the Jupyter notebook `testQ.ipynb' in VS-Code.  It should be listed in the file 'Explorer' in VS-Code. If not, open it using 'FILE->Open Folder...' and choose the test folder path (.\MQIT-Portable\environment-MQIT-Portable\test)
+    Open the Jupyter notebook `test\testQ.ipynb' in VS-Code.  It should be listed in the file 'Explorer' in VS-Code. If not, open the folder where it can be found using 'FILE->Open Folder...' and choose the test folder path (.\MQIT-Portable\environment-MQIT-Portable)
 
+    Follow the instructions in the Jupyter notebook 'testQ.ipynb' for testing that you can use Q# and Python. 
     
-    Follow the instructions in the Jupyter notebook 'testQ.ipynb' for testing that you can use Q# and Python.  Note that the first step in these tests is the same first step you will follow to use Q# in any other Jupyter notebook, which is to select the mqit kernel.  This is done by opening the Kernel Picker via the "Select Kernel" button on the top right-hand side of the notebook (or run the Notebook: Select Notebook Kernel command from the Command Palette).
+    If the code in the Jupyter notebook executes without an error you are ready to use the MQIT software environment for classes and assignments.
 
 
-7. Move installed components to another location *[optional]*
+##  Optional Configuration step 
 
-    You can move the portable versions of Python and VS-Code by copying the directory 'mqit' (at .\MQIT-Portable\environment-MQIT-Portable\mqit) to  another location (e.g.your oneDrive folder or external disk).   You will be able to launch VS-Code from that location next time you use the  Note that you will need to update PATH environment variables for code.exe and python to be conveniently used.
+    You can move the portable versions of Python and VS-Code by copying the MQIT-Portable directory to  another location (e.g. your oneDrive folder or external disk).   You will be able to launch VS-Code from that location next time you use the  Note that you will need to update PATH environment variables for code.exe and python to be conveniently used.
 
-    The mqit python virtual environment will be activated during the above installation.  In a new session (or new powershell instance) you will need to activate the python environment by running the following command from the location where you installed or relocated the mqit folder:
+##  Using the Python environment from a terminal
+
+    You can activate the virtual python environment configured by the above scripts by running the following command from the location where you installed or relocated the mqit folder:
 
     ```
     .\mqit\mqit-env\activate
     ```
-
-## Next Steps
-
-See:
-1. [Load a Q# sample program](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#load-a-q-sample-program).
-2. [Run a Q# program](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#run-a-q-program)
-3. [Visualise the frequency histogram](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#visualize-the-frequency-histogram)
-4. [Visualise the Quantum Circuit](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#visualize-the-quantum-circuit)
-4. [Connect to Azure Quantum and submit your job](https://learn.microsoft.com/en-us/azure/quantum/how-to-submit-jobs?tabs=tabid-python&pivots=ide-qsharp#connect-to-azure-quantum-and-submit-your-job)
-
-## Requirements
-
-1. Powershell
-2. Dotnet
 
