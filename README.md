@@ -10,7 +10,7 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 1. Open Powershell.
 
-    You can press <kbd>![Windows Key][newwinlogo]</kbd>+<kbd>x</kbd> and choose ''Windows Powershell'' or press <kbd>i</kbd>.
+    You can press <kbd>windows</kbd>+<kbd>x</kbd> and choose ''Windows Powershell'' or press <kbd>i</kbd>.
 
 2. Get [MQIT-Portable](https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip)
 
@@ -30,10 +30,10 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
     ```
     cd MQIT-Portable\environment-MQIT-Portable\
-    .\configureAll.ps1
+    .\install.ps1
     ```
 
-    This will install portable versions of Python and VS-Code at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.  This step may take about 5 minutes.
+    This will install portable versions of Python, VS-Code and Git at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.  This step may take about 5 minutes.
 
 5. Open the installed version of VS-Code
 
