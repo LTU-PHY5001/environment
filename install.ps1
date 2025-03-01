@@ -16,9 +16,9 @@ $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-
 
 $venvPath = "$mqitPath\mqit-env\"
 $activateEnvCmd = "$venvPath\Scripts\Activate.ps1"
-$downloadPath =  "$mqitpath\VSCode.zip" 
-$dataPath = "$mqitpath\VSCode\Data"
-$codeExePath = "$mqitpath\VSCode\"
+$downloadPath =  "$mqitPath\VSCode.zip" 
+$dataPath = "$mqitPath\VSCode\Data"
+$codeExePath = "$mqitPath\VSCode\"
 $codeExe = "$codeExePath\Code.exe"
 $extensions = @("ms-python.python",
               "quantum.qsharp-lang-vscode",
@@ -124,7 +124,7 @@ Write-Host "`n Installing portable instance of VS Code"
 
 # Get VS Code archive (zip file), expand it.
 & curl -o $downloadPath $vscodeurl
-cd $mqitpath
+cd $mqitPath
 Expand-Archive -Path $downloadPath
 
 #Make Data folder to store configuration
