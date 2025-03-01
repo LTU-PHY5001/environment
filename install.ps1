@@ -25,6 +25,16 @@ $extensions = @("ms-python.python",
               "ms-toolsai.jupyter")
 
 
+$pythonVersion = "3.12.0" 
+$pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)a5-embed-amd64.zip"
+$pipDownloadURL = "https://bootstrap.pypa.io/get-pip.py"
+$downloadPipPath = ".\get-pip.py"
+#$installDir = "$mqitPath\python"
+$downloadPythonPath =  "python-$($pythonVersion)a5-embed-amd64.zip"
+$pythonPath =    "$mqitPath\python-$($pythonVersion)a5-embed-amd64"
+
+
+
 Write-Host "`n This script will install portable instances of PYTHON, VS-Code and Git to ${mqitPath}."
 
 
@@ -39,25 +49,14 @@ if (!(test-path $mqitPath))
 
 # install embedded python:
 
-# grab the version string from the error message
-$p.Exception.Message
-$pythonVersion = "3.12.0" 
-$pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)a5-embed-amd64.zip"
-$pipDownloadURL = "https://bootstrap.pypa.io/get-pip.py"
-$downloadPipPath = ".\get-pip.py"
-#$installDir = "$mqitPath\python"
-$downloadPath =  "python-$($pythonVersion)a5-embed-amd64.zip"
-$pythonPath =    "$mqitPath\python-$($pythonVersion)a5-embed-amd64"
-
-$currentDirectory = Get-Location
 Set-Location $mqitPath
 
 # Download Python installer 
-Write-Host "`n Downloading python installer to $downloadPath"
-Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPath
+Write-Host "`n Downloading python installer to $downloadPythonPath"
+Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPythonPath
 
-Expand-Archive -Path $downloadPath
-Remove-Item $downloadPath -Force
+Expand-Archive -Path $downloadPythonPath
+Remove-Item $downloadPythonPath -Force
 
 Set-Location $currentDirectory
 
