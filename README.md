@@ -8,7 +8,10 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 ## <a name="instructions"></a> Instructions for Installation on PS1 Laboratory Computers
 
-1. Open Powershell
+1. Open Powershell.
+
+    You can press <kbd>![Windows Key][newwinlogo]</kbd>+<kbd>x</kbd> and choose ''Windows Powershell'' or press <kbd>i</kbd>.
+
 2. Get [MQIT-Portable](https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip)
 
     In Powershell enter the following command (copy and paste it) to download and unzip a file containing everything you need:
@@ -30,7 +33,7 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
     .\configureAll.ps1
     ```
 
-    This will install portable versions of Python and VS-Code at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.
+    This will install portable versions of Python and VS-Code at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.  This step may take about 5 minutes.
 
 5. Open the installed version of VS-Code
 
@@ -42,14 +45,13 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 6. Install VS-Code Extensions
 
+    To install required extensions, open the 'Extensions' view in the VS Code sidebar, or press F1 and select "Extensions: Install Extensions" from the quick menu, and search for the following:
 
-To install required extensions, open the 'Extensions' view in the VS Code sidebar, or press F1 and select "Extensions: Install Extensions" from the quick menu, and search for the following:
+    - Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
+    - Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
+    - Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
 
-- Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
-- Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
-- Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
-
-For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
+    For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
 
 6.  Test:
    
