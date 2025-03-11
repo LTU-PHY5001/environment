@@ -116,10 +116,7 @@ $PATH = [Environment]::GetEnvironmentVariable("PATH")
 
 
 # Now install VS-code
-
-
 Write-Host "`n Installing portable instance of VS Code"
- 
 
 # Get VS Code archive (zip file), expand it.
 & curl -o $downloadPath $vscodeurl
@@ -129,10 +126,9 @@ Expand-Archive -Path $downloadPath
 #Make Data folder to store configuration
 New-Item -ItemType Directory $dataPath
 
-# Add to path
-#$PATH = [Environment]::GetEnvironmentVariable("PATH")
-#$code_path = "$($env:LOCALAPPDATA)\Programs\Microsoft VS Code"
-#[Environment]::SetEnvironmentVariable("PATH", "$PATH;$code_path")
+# Add VS-Code to path
+$PATH = [Environment]::GetEnvironmentVariable("PATH")
+[Environment]::SetEnvironmentVariable("PATH", "$PATH;$codeExePath")
 
 Remove-item $downloadPath
 
@@ -147,9 +143,19 @@ Set-Location $currentDirectory
 # Install any extensions
 #foreach ($extension in $extensions) {
 #    Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
-#    & $codeExe --install-extension $extension
+#    & $codeExe --install-extension $extension --force
 #}
+# or: $codeExe --install-extension ms-python.python quantum.qsharp-lang-vscode ms-toolsai.jupyter --force
+#** check https://stackoverflow.com/questions/40080793/is-there-a-way-to-change-the-extensions-folder-location-for-visual-studio-code
 
-Write-Host "`n Code installed at $codeExePath.  Start code with $codeExe."
 
+#force reload of path without restartig powershell
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+
+Write-Host "`n VS-Code installed at $codeExePath.  You can start it with  with $codeExe." -ForegroundColor Yellow
+
+
+Write-Host "`n Starting  VS-Code & opening folder for tests." -ForegroundColor Yellow
 Set-Location $currentDirectory
+& " .\mqit\VSCode\code.exe" .\
