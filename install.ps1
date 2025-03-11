@@ -158,4 +158,3 @@ Write-Host "`n VS-Code installed at $codeExePath.  You can start it with  with $
 
 Write-Host "`n Starting  VS-Code & opening folder for tests." -ForegroundColor Yellow
 Set-Location $currentDirectory
-& " .\mqit\VSCode\code.exe" .\

@@ -35,13 +35,15 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
     This will install portable versions of Python, VS-Code and Git at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.  This step may take about 5 minutes.
 
-5. Open the installed version of VS-Code
+5. Launch the installed version of VS-Code
 
-    Start VS-Code from .\mqit\VSCode\code.exe using the following command:
+    Launch the instance of VS-Code that was installed at .\mqit\VSCode\code.exe using the following command:
 
     ```
-    & ".\mqit\VSCode\code.exe" .\
+    code .\
     ```
+
+    The argument following ``code`` will cause VS-Code to open in a folder containing a test script that we will use in step 6.
 
 6. Install VS-Code Extensions
 
