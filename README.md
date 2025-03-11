@@ -37,13 +37,13 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 5. Launch the installed version of VS-Code
 
-    Launch the instance of VS-Code that was installed at .\mqit\VSCode\code.exe using the following command:
+    Launch VS-Code from .\mqit\VSCode\code.exe using the following command:
 
     ```
-    code .\
+    & ".\mqit\VSCode\code.exe" .\test
     ```
 
-    The argument following ``code`` will cause VS-Code to open in a folder containing a test script that we will use in step 6.
+    The argument ``.\test`` tells VS-Code to open in a folder that we created in step 4.
 
 6. Install VS-Code Extensions
 
