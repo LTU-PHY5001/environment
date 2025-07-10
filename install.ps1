@@ -1,8 +1,8 @@
 ## Powershell script for installing a portable instance of PYTHON on windows (10+).
 ## Using embedded linux. 
-## Tested for python 3.12.0 on Windows 10
+## Tested for python 3.13.0 on Windows 10
 ##
-## G van Riessen, 2024
+## G van Riessen, 2024-2025
 
 #$mqitPath = "$($env:USERPROFILE)\mqit"
 $currentDirectory = Get-Location
@@ -73,7 +73,7 @@ python get-pip.py
 
 # create virtual environment (python)
 pip install --no-cache virtualenv
-python -m venv "$mqitPath\mqit-env"
+$pythonPath -m venv "$mqitPath\mqit-env"
 
 # Activate new virtual environment (save wd, activate change back to saved wd)
 Set-Location "$mqitPath\mqit-env\Scripts\"
