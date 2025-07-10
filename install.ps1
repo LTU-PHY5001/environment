@@ -11,7 +11,7 @@ $git_path = "$mqitPath\Git"
 $gitBinPath = "$gitPath\bin"
 
 # VS-Code variables
-$minVersion = [Version]"1.8.0"
+$minVersion = [Version]"1.100.0"
 $vscodeurl =  "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
 
 $venvPath = "$mqitPath\mqit-env\"

@@ -1,9 +1,9 @@
 jupyter
-jupyterlab
-jupyterlab_code_formatter
+#jupyterlab
+#jupyterlab_code_formatter
 #jupyterlab-git
-jupyterlab-spreadsheet-editor
-jupyterlab-drawio
+#jupyterlab-spreadsheet-editor
+#jupyterlab-drawio
 jupyterquiz
 ipylab
 ipympl
