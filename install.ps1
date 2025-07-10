@@ -25,7 +25,7 @@ $extensions = @("ms-python.python",
               "ms-toolsai.jupyter")
 
 
-$pythonVersion = "3.12.0" 
+$pythonVersion = "3.13.0" 
 $pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)a5-embed-amd64.zip"
 $pipDownloadURL = "https://bootstrap.pypa.io/get-pip.py"
 $downloadPipPath = ".\get-pip.py"
