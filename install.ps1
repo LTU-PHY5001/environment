@@ -32,6 +32,7 @@ $downloadPipPath = ".\get-pip.py"
 #$installDir = "$mqitPath\python"
 $downloadPythonPath =  "python-$($pythonVersion)a5-embed-amd64.zip"
 $pythonPath =    "$mqitPath\python-$($pythonVersion)a5-embed-amd64"
+$pythonExe = Join-Path $pythonPath "python.exe"
 
 
 
@@ -69,11 +70,11 @@ $PATH = [Environment]::GetEnvironmentVariable("PATH")
 Set-Location $mqitPath
 Invoke-WebRequest -Uri $pipDownloadURL -OutFile $downloadPipPath
 
-python get-pip.py
+$pythonExe  get-pip.py
 
 # create virtual environment (python)
 pip install --no-cache virtualenv
-$pythonPath -m venv "$mqitPath\mqit-env"
+$pythonExe -m venv "$mqitPath\mqit-env"
 
 # Activate new virtual environment (save wd, activate change back to saved wd)
 Set-Location "$mqitPath\mqit-env\Scripts\"
