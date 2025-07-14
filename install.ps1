@@ -9,6 +9,8 @@ $currentDirectory = Get-Location
 $mqitPath = "$currentDirectory\mqit"
 $git_path = "$mqitPath\Git"
 $gitBinPath = "$gitPath\bin"
+$testPath = "$mqitPath\test"
+$testScriptPath = "$testPath\testQ.ipynb
 
 # VS-Code variables
 $minVersion = [Version]"1.100.0"
@@ -33,11 +35,11 @@ $downloadPipPath = ".\get-pip.py"
 $downloadPythonPath =  "python-$($pythonVersion)a5-embed-amd64.zip"
 $pythonPath =    "$mqitPath\python-$($pythonVersion)a5-embed-amd64"
 $pythonExe = Join-Path $pythonPath "python.exe"
+$pipPath = "$pythonPath\Scripts"
+$pipExe = Join-Path $pipPath "pip.exe"
+$confPath = "$pythonPath\python ._pth
 
-
-
-Write-Host "`n This script will install portable instances of PYTHON, VS-Code and Git to ${mqitPath}."
-
+Write-Host "`n This script will install portable instances of PYTHON, VS-Code and Git to ${mqitPath}." -ForegroundColor Yellow
 
 
 Write-Host "`n Getting ready to install  portable instance of PYTHON to ${mqitPath}..."
@@ -47,6 +49,13 @@ if (!(test-path $mqitPath))
 {
     New-Item -ItemType Directory $mqitPath
 }
+# create directory if not exists
+if (!(test-path $venvPath))
+{
+    New-Item -ItemType Directory $venvPath
+}
+
+
 
 # install embedded python:
 
@@ -56,46 +65,68 @@ Set-Location $mqitPath
 Write-Host "`n Downloading python installer to $downloadPythonPath"
 Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPythonPath
 
-Expand-Archive -Path $downloadPythonPath
+# Expand the archive, remove if already exists
+if (test-path $pythonPath) {
+    Write-Host "`n Removing existing python installation at $pythonPath"
+    Remove-Item -Path $pythonPath -Recurse -Force
+}
+Write-Host "`n Expanding python archive to $pythonPath"
+Expand-Archive -Path $downloadPythonPath -Force
+Write-Host ("   Expanded python archive to $pythonPath, removing archive file $downloadPythonPath")
 Remove-Item $downloadPythonPath -Force
 
-Set-Location $currentDirectory
 
+Set-Location $currentDirectory
 
 # Set path
 $PATH = [Environment]::GetEnvironmentVariable("PATH")
-[Environment]::SetEnvironmentVariable("PATH", "$PATH;$pythonPath")
+[Environment]::SetEnvironmentVariable("PATH", "$PATH;$pythonPath;$pythonPath\Scripts")
+
 
 # install pip
+Write-Host "`n Installing pip for python $pythonVersion in $pythonPath"
 Set-Location $mqitPath
 Invoke-WebRequest -Uri $pipDownloadURL -OutFile $downloadPipPath
-
 & $pythonExe  get-pip.py
+Remove-Item $downloadPipPath -Force
+
+
+# fix PIP module path
+# Ensure the target file exists
+if (-Not (Test-Path $confPath)) {
+    Write-Error "File not found: $confPath"
+    exit 1
+}
+
+# Append "Lib/site-packages" to the file
+Add-Content -Path $confPath -Value "Lib/site-packages"
+
+Write-Host "Appended 'Lib/site-packages' to $path"
 
 # create virtual environment (python)
-pip install --no-cache virtualenv
-& $pythonExe -m venv "$mqitPath\mqit-env"
+Write-Host "`n Creating virtual environment in $venvPath"
+& $pythonExe -m install --no-cache virtualenv --no-warn-script-location
+& $pythonExe -m virtualenv $venvPath
 
 # Activate new virtual environment (save wd, activate change back to saved wd)
-Set-Location "$mqitPath\mqit-env\Scripts\"
-./Activate.ps1
-Set-Location "$($currentDirectory)"
+Write-Host "`n Activating virtual environment $venvPath"
+& $activateEnvCmd
+
 
 # install python packages
 Set-Location $currentDirectory
-pip install --no-cache -r "$($currentDirectory)/requirements.txt"
+Write-Host "`n Installing python packages from requirements.txt in $currentDirectory"
+& $pipExe install --no-cache -r "$($currentDirectory)/requirements.txt"
 
 # create a python kernel
-python -m ipykernel install --user --name=mqit_kernel 
+Write-Host "`n Creating a python kernel for Jupyter notebooks in $venvPath"
+& $pythonExe -m ipykernel install --user --name=mqit_kernel 
 
-Write-Host "`n Complete.  Run python $pythonVersion from the path $pythonPath."
+Write-Host "`n Python installation Complete.  Run python $pythonVersion from the path $pythonPath."
 Write-Host "`n Use python virtual environment mqit-env."
 
 
-
-
 Set-Location $currentDirectory
-
 
 # Now Install Git in current directory 
 
@@ -117,9 +148,10 @@ $PATH = [Environment]::GetEnvironmentVariable("PATH")
 
 
 # Now install VS-code
-Write-Host "`n Installing portable instance of VS Code"
+Write-Host "`n Installing portable instance of VS Code..."
 
 # Get VS Code archive (zip file), expand it.
+Write-Host "`n Downloading VS-Code from $vscodeurl..." -ForegroundColor Yellow
 & curl -o $downloadPath $vscodeurl
 cd $mqitPath
 Expand-Archive -Path $downloadPath
@@ -131,11 +163,12 @@ New-Item -ItemType Directory $dataPath
 $PATH = [Environment]::GetEnvironmentVariable("PATH")
 [Environment]::SetEnvironmentVariable("PATH", "$PATH;$codeExePath")
 
+
 Remove-item $downloadPath
 
 # install IQ# (note that it happens automatically when using Conda, not pip or via Code extensions)
 #first switch to mqit-env virtual environment
-& $activateEnvCmd
+#& $activateEnvCmd
 #dotnet tool install -g Microsoft.Quantum.IQSharp
 #dotnet iqsharp install --user
 
@@ -153,9 +186,25 @@ Set-Location $currentDirectory
 #force reload of path without restartig powershell
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
+& $activateEnvCmd
+
+
+# Attempt to install VS-Code extntions python, jupyter and qsharp
+foreach ($extension in $extensions) {
+    Write-Host "`nInstalling extension $extension..." -ForegroundColor Yellow
+    & $codeExe --install-extension $extension --force
+}
 
 Write-Host "`n VS-Code installed at $codeExePath.  You can start it with  with $codeExe." -ForegroundColor Yellow
 
-
-Write-Host "`n Starting  VS-Code & opening folder for tests." -ForegroundColor Yellow
 Set-Location $currentDirectory
+
+& $codeExe --folder-uri "file://$testPath" --user-data-dir $testPath
+Write-Host "`n VS-Code started, opening test folder $testPath." -ForegroundColor Yellow
+Write-Host "`n Installation complete.  You can now use the portable instance of PYTHON, VS-Code and GIT in $mqitPath." -ForegroundColor Green
+Write-Host "`n To use the virtual environment, run the command: & $activateEnvCmd" -ForegroundColor Green
+Write-Host "`n To run the test notebook, run the command: & $codeExe --folder-uri 'file://$testPath' --user-data-dir $testPath" -ForegroundColor Green
+Write-Host "`n To run the test script, run the command: & $pythonExe $testScriptPath" -ForegroundColor Green
+
+
+
