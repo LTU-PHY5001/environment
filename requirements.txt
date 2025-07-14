@@ -4,7 +4,7 @@ ipylab
 ipympl
 pytest 
 voila
-matplotlib==3.8.4
+#matplotlib==3.8.4
 ipykernel
 qsharp
 qsharp-widgets
