@@ -116,7 +116,7 @@ Write-Host "`n Activating virtual environment $venvPath"
 # install python packages
 Set-Location $currentDirectory
 Write-Host "`n Installing python packages from requirements.txt in $currentDirectory"
-& $pipExe install --no-cache -r "$($currentDirectory)/requirements.txt"
+& $pythonExe -m pip install --no-cache -r "$($currentDirectory)/requirements.txt"
 
 # create a python kernel
 Write-Host "`n Creating a python kernel for Jupyter notebooks in $venvPath"
