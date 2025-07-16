@@ -111,7 +111,8 @@ Write-Host " Creating virtual environment in $venvPath"
 
 # Instead of activating the environment, we will use the python executable directly:
 # Define the path to the venv's python
-$venvPython = Join-Path $envPath "Scripts\python.exe"
+$venvPython = Join-Path $venvPath "Scripts\python.exe"
+Write-Host  " Using virtual environment python at $venvPython"
 
 
 # install python packages
