@@ -44,6 +44,32 @@ $confPath = "$pythonPath\python$versionStr._pth"
 Write-Host " This script will install portable instances of PYTHON, VS-Code and Git to ${mqitPath}." -ForegroundColor Yellow
 
 
+
+# Remove Python installation if it exists
+if (Test-Path $pythonPath) {
+    Write-Host "Found existing Python installation at: $pythonPath"
+    $confirm = Read-Host "Do you want to remove it? (Y/N)"
+    if ($confirm -match '^[Yy]$') {
+        Write-Host " Removing existing Python installation at $pythonPath"
+        Remove-Item -Path $pythonPath -Recurse -Force
+    } else {
+        Write-Host " Skipping removal of $pythonPath"
+    }
+}
+
+# Remove VS Code if it exists
+if (Test-Path $codeExePath) {
+    Write-Host "Found existing VS Code installation at: $codeExePath"
+    $confirm = Read-Host "Do you want to remove it? (Y/N)"
+    if ($confirm -match '^[Yy]$') {
+        Write-Host " Removing existing VS Code at $codeExePath"
+        Remove-Item -Path $codeExePath -Recurse -Force
+    } else {
+        Write-Host " Skipping removal of $codeExePath"
+    }
+}
+
+
 # create directory if not exists
 if (!(test-path $mqitPath))
 {
@@ -65,11 +91,7 @@ Set-Location $mqitPath
 Write-Host " Downloading python installer to $downloadPythonPath"
 Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPythonPath
 
-# Expand the archive, remove if already exists
-if (test-path $pythonPath) {
-    Write-Host " Removing existing python installation at $pythonPath"
-    Remove-Item -Path $pythonPath -Recurse -Force
-}
+# Expand the archive, 
 Write-Host " Expanding python archive to $pythonPath"
 Expand-Archive -Path $downloadPythonPath -Force
 Write-Host ("   Expanded python archive to $pythonPath, removing archive file $downloadPythonPath")
