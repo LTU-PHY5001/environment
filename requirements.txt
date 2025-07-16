@@ -11,3 +11,4 @@ qsharp
 #azure-quantum
 pyQuirk
 #qiskit
+nbformat
