@@ -75,13 +75,11 @@ Expand-Archive -Path $downloadPythonPath -Force
 Write-Host ("   Expanded python archive to $pythonPath, removing archive file $downloadPythonPath")
 Remove-Item $downloadPythonPath -Force
 
-
 Set-Location $currentDirectory
 
 # Set path
 $PATH = [Environment]::GetEnvironmentVariable("PATH")
 [Environment]::SetEnvironmentVariable("PATH", "$PATH;$pythonPath;$pythonPath\Scripts")
-
 
 # install pip
 Write-Host " Installing pip for python $pythonVersion in $pythonPath"
@@ -89,7 +87,6 @@ Set-Location $mqitPath
 Invoke-WebRequest -Uri $pipDownloadURL -OutFile $downloadPipPath
 & $pythonExe  get-pip.py
 Remove-Item $downloadPipPath -Force
-
 
 # fix PIP module path
 # Ensure the target file exists
@@ -108,19 +105,23 @@ Write-Host " Creating virtual environment in $venvPath"
 & $pythonExe -m pip install --no-cache virtualenv --no-warn-script-location
 & $pythonExe -m virtualenv $venvPath
 
-# Activate new virtual environment (save wd, activate change back to saved wd)
-Write-Host " Activating virtual environment $venvPath"
-& $activateEnvCmd
+# Activate new virtual environment (save wd, activate change back to saved wd)  --- too fragile in powershell 
+#Write-Host " Activating virtual environment $venvPath"
+#& $activateEnvCmd
+
+# Instead of activating the environment, we will use the python executable directly:
+# Define the path to the venv's python
+$venvPython = Join-Path $envPath "Scripts\python.exe"
 
 
 # install python packages
 Set-Location $currentDirectory
 Write-Host " Installing python packages from requirements.txt in $currentDirectory"
-& $pythonExe -m pip install --no-cache -r "$($currentDirectory)/requirements.txt"
+& $venvPython -m pip install --no-cache -r "$($currentDirectory)/requirements.txt"
 
-# create a python kernel
+# create a python kUUernel
 Write-Host " Creating a python kernel for Jupyter notebooks in $venvPath"
-& $pythonExe -m ipykernel install --user --name=mqit_kernel 
+& $venvPython -m ipykernel install --user --name=mqit_kernel 
 
 Write-Host " Python installation Complete.  Run python $pythonVersion from the path $pythonPath."
 Write-Host " Use python virtual environment mqit-env."
