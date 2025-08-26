@@ -1,14 +1,11 @@
-#jupyter
-ipykernel
-qsharp
-#jupyterquiz
-#ipylab
-#ipympl
-#pytest 
-#voila
-#matplotlib==3.8.4
-#qsharp-widgets
-#azure-quantum
-pyQuirk
-#qiskit
-nbformat
+# Pinned core tooling for MQIT portable environment (Windows 11-safe)
+# Notes:
+# - We prefer manylinux/Windows wheels only (installer enforces --only-binary)
+# - Numpy pin avoids accidental major jumps while allowing security/bugfixes
+# - notebook/ipykernel are pinned to the 7.x / 6.x tracks for stability on Win
+numpy>=2.0,<2.3
+jupyter>=1.0,<2.0
+notebook>=7.2,<8.0
+ipykernel>=6.29,<7.0
+# QDK (Python) for Q#/IQ# interop; keep within minor while allowing patches
+qsharp>=0.27,<0.29

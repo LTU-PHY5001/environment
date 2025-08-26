@@ -83,19 +83,21 @@ if (!(test-path $venvPath))
 
 
 
-# install embedded python:
+# # install embedded python:
 
-Set-Location $mqitPath
+# Set-Location $mqitPath
 
-# Download Python installer 
-Write-Host " Downloading python installer to $downloadPythonPath"
-Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPythonPath
+# # Download Python installer 
+# Write-Host " Downloading python installer to $downloadPythonPath"
+# Invoke-WebRequest -Uri $pythonDownloadUrl -OutFile $downloadPythonPath
 
-# Expand the archive, 
-Write-Host " Expanding python archive to $pythonPath"
-Expand-Archive -Path $downloadPythonPath -Force
-Write-Host ("   Expanded python archive to $pythonPath, removing archive file $downloadPythonPath")
-Remove-Item $downloadPythonPath -Force
+# # Expand the archive, 
+# Write-Host " Expanding python archive to $pythonPath"
+# Expand-Archive -Path $downloadPythonPath -Force
+# Write-Host ("   Expanded python archive to $pythonPath, removing archive file $downloadPythonPath")
+# Remove-Item $downloadPythonPath -Force
+
+& "$PSScriptRoot\\scripts\\setup-python.ps1" -VerboseLog
 
 Set-Location $currentDirectory
 
