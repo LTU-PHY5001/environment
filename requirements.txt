@@ -8,7 +8,11 @@ qsharp
 #voila
 #matplotlib==3.8.4
 #qsharp-widgets
-#azure-quantum
 pyQuirk
 #qiskit
 nbformat
+# qdk recommends:
+#azure-quantum
+ipympl
+jupyterlab
+numpy

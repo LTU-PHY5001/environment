@@ -27,15 +27,15 @@ $extensions = @("ms-python.python",
               "ms-toolsai.jupyter")
 
 
-$pythonVersion = "3.13.0" 
+$pythonVersion = "3.12.9" 
 #$versionStr = ($pythonVersion -split '\.') -join ''
-$versionStr = "313"
-$pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)a5-embed-amd64.zip"
+$versionStr = "323"
+$pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)-embed-amd64.zip"
 $pipDownloadURL = "https://bootstrap.pypa.io/get-pip.py"
 $downloadPipPath = ".\get-pip.py"
 #$installDir = "$mqitPath\python"
-$downloadPythonPath =  "python-$($pythonVersion)a5-embed-amd64.zip"
-$pythonPath =    "$mqitPath\python-$($pythonVersion)a5-embed-amd64"
+$downloadPythonPath =  "python-$($pythonVersion)-embed-amd64.zip"
+$pythonPath =    "$mqitPath\python-$($pythonVersion)-embed-amd64"
 $pythonExe = Join-Path $pythonPath "python.exe"
 $pipPath = "$pythonPath\Scripts"
 $pipExe = Join-Path $pipPath "pip.exe"
