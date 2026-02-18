@@ -17,7 +17,7 @@ pyQuirk
 numpy
 matplotlib
 pandas
-qiskit==2.2*
+qiskit
 qiskit-aer
 qiskit-ibm-runtime
 qsharp
