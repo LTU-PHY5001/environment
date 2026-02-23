@@ -51,7 +51,7 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
     - Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
     - Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
-    - Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
+    - Microsoft Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
 
     For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
 
