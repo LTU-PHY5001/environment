@@ -44,6 +44,8 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
 
 5. Launch the installed version of VS-Code
 
+    Open a new instance of Powershell.
+
     Using the command recorded in Step 4, start VS-Code with a test.
 
 6. Install VS-Code Extensions
