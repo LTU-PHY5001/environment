@@ -1,7 +1,7 @@
 jupyter
 jupyterlab
 jupyterlab-rise
-jupypterquiz
+jupyterquiz
 jupyter_nbextensions_configurator
 #jupyter_contrib_nbextensions
 #ipylab
