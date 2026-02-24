@@ -4,7 +4,7 @@ jupyterlab-rise
 jupyterquiz
 jupyter_nbextensions_configurator
 #jupyter_contrib_nbextensions
-#ipylab
+ipylab
 ipywidgets
 notebook
 nbconvert
