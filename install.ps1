@@ -28,8 +28,8 @@ $extensions = @("ms-python.python",
 
 
 $pythonVersion = "3.12.9" 
-#$versionStr = ($pythonVersion -split '\.') -join ''
-$versionStr = "323"
+$pythonVersionParts = $pythonVersion -split '\.'
+$versionStr = "$($pythonVersionParts[0])$($pythonVersionParts[1])"
 $pythonDownloadUrl = "https://www.python.org/ftp/python/$pythonVersion/python-$($pythonVersion)-embed-amd64.zip"
 $pipDownloadURL = "https://bootstrap.pypa.io/get-pip.py"
 $downloadPipPath = ".\get-pip.py"
@@ -178,14 +178,15 @@ Remove-Item $downloadPipPath -Force
 # fix PIP module path
 # Ensure the target file exists
 if (-Not (Test-Path $confPath)) {
-    Write-Error "File not found: $confPath"
+    Write-Error "Embedded Python path configuration file not found: $confPath"
+    Write-Error "Expected the embedded Python archive for version $pythonVersion to contain python$versionStr._pth in $pythonPath."
     exit 1
 }
 
 # Append "Lib/site-packages" to the file
 Add-Content -Path $confPath -Value "Lib/site-packages"
 
-Write-Host "Appended 'Lib/site-packages' to $path"
+Write-Host "Appended 'Lib/site-packages' to $confPath"
 
 # create virtual environment (python)
 Write-Host " Creating virtual environment in $venvPath"
@@ -294,4 +295,3 @@ Write-Host " VS-Code started, opening test folder $testPath." -ForegroundColor Y
 Write-Host " Installation complete.  You can now use the portable instance of PYTHON, VS-Code and GIT in $mqitPath." -ForegroundColor Green
 Write-Host " To use the virtual environment, run the command: & $activateEnvCmd" -ForegroundColor Green
 Write-Host " To run the test notebook, run the command: & $codeExe --folder-uri 'file://$testPath' --user-data-dir $testPath" -ForegroundColor Green
-

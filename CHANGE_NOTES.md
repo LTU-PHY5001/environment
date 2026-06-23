@@ -8,6 +8,8 @@
 - Requirements that cannot be installed are skipped instead of stopping the full installation.
 - The installer writes the successful package list to `mqit\requirements.effective.txt`.
 - The installer writes skipped packages to `mqit\requirements.skipped.txt`.
+- Fixed the embedded Python `_pth` filename calculation so Python 3.12.x uses `python312._pth`.
+- Improved the error message if the expected embedded Python `_pth` file cannot be found.
 
 ## Git installer setup
 
