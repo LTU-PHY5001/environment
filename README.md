@@ -76,3 +76,16 @@ For our purposes it is convenient to use a 'portable' instance of VS Code that i
     .\mqit\mqit-env\activate
     ```
 
+##  Uninstalling
+
+    To remove the portable Python, VS Code, Git installation, generated installer files, and the `mqit_kernel` Jupyter kernel spec, run:
+
+    ```
+    .\uninstall.ps1
+    ```
+
+    For a non-interactive uninstall, run:
+
+    ```
+    .\uninstall.ps1 -Force
+    ```
