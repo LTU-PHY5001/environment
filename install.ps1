@@ -7,7 +7,7 @@
 #$mqitPath = "$($env:USERPROFILE)\mqit"
 $currentDirectory = Get-Location
 $mqitPath = "$currentDirectory\mqit"
-$git_path = "$mqitPath\Git"
+$gitPath = "$mqitPath\Git"
 $gitBinPath = "$gitPath\bin"
 $testPath = "$mqitPath\test"
 $testScriptPath = "$testPath\testQ.ipynb"
@@ -40,6 +40,71 @@ $pythonExe = Join-Path $pythonPath "python.exe"
 $pipPath = "$pythonPath\Scripts"
 $pipExe = Join-Path $pipPath "pip.exe"
 $confPath = "$pythonPath\python$versionStr._pth"
+$effectiveRequirementsPath = "$mqitPath\requirements.effective.txt"
+$skippedRequirementsPath = "$mqitPath\requirements.skipped.txt"
+
+function Install-RequirementsWithFallback {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$PythonExePath,
+
+        [Parameter(Mandatory=$true)]
+        [string]$RequirementsPath,
+
+        [Parameter(Mandatory=$true)]
+        [string]$EffectiveRequirementsPath,
+
+        [Parameter(Mandatory=$true)]
+        [string]$SkippedRequirementsPath
+    )
+
+    Write-Host " Installing python packages from $RequirementsPath"
+    & $PythonExePath -m pip install --no-cache -r $RequirementsPath
+    if ($LASTEXITCODE -eq 0) {
+        Copy-Item -Path $RequirementsPath -Destination $EffectiveRequirementsPath -Force
+        if (Test-Path $SkippedRequirementsPath) {
+            Remove-Item -Path $SkippedRequirementsPath -Force
+        }
+        return
+    }
+
+    Write-Warning " pip failed to install all requirements. Retrying one package at a time and skipping packages that cannot be installed."
+
+    $requirements = Get-Content -Path $RequirementsPath | Where-Object {
+        $line = $_.Trim()
+        $line -and -not $line.StartsWith("#")
+    }
+
+    $installedRequirements = New-Object System.Collections.Generic.List[string]
+    $skippedRequirements = New-Object System.Collections.Generic.List[string]
+    $singleRequirementPath = Join-Path (Split-Path -Parent $EffectiveRequirementsPath) "requirements.single.txt"
+
+    foreach ($requirement in $requirements) {
+        Write-Host " Installing requirement: $requirement"
+        Set-Content -Path $singleRequirementPath -Value $requirement
+        & $PythonExePath -m pip install --no-cache -r $singleRequirementPath
+        if ($LASTEXITCODE -eq 0) {
+            $installedRequirements.Add($requirement)
+        } else {
+            Write-Warning " Skipping requirement because pip could not install it: $requirement"
+            $skippedRequirements.Add($requirement)
+        }
+    }
+
+    if (Test-Path $singleRequirementPath) {
+        Remove-Item -Path $singleRequirementPath -Force
+    }
+
+    Set-Content -Path $EffectiveRequirementsPath -Value $installedRequirements.ToArray()
+    if ($skippedRequirements.Count -gt 0) {
+        Set-Content -Path $SkippedRequirementsPath -Value $skippedRequirements.ToArray()
+        Write-Warning " Skipped $($skippedRequirements.Count) requirement(s). See $SkippedRequirementsPath"
+    } else {
+        if (Test-Path $SkippedRequirementsPath) {
+            Remove-Item -Path $SkippedRequirementsPath -Force
+        }
+    }
+}
 
 Write-Host " This script will install portable instances of PYTHON, VS-Code and Git to ${mqitPath}." -ForegroundColor Yellow
 
@@ -139,8 +204,7 @@ Write-Host  " Using virtual environment python at $venvPython"
 
 # install python packages
 Set-Location $currentDirectory
-Write-Host " Installing python packages from requirements.txt in $currentDirectory"
-& $venvPython -m pip install --no-cache -r "$($currentDirectory)/requirements.txt"
+Install-RequirementsWithFallback -PythonExePath $venvPython -RequirementsPath "$($currentDirectory)\requirements.txt" -EffectiveRequirementsPath $effectiveRequirementsPath -SkippedRequirementsPath $skippedRequirementsPath
 
 # create a python kUUernel
 Write-Host " Creating a python kernel for Jupyter notebooks in $venvPath"
@@ -154,15 +218,17 @@ Set-Location $currentDirectory
 
 # Now Install Git in current directory 
 
-# append git path to git.inf 
-Add-Content -Path "git.inf" -Value "Dir=$($git_path)"
+# Create a temporary Git installer answer file with the install location.
+$gitInstallInfPath = "$mqitPath\git-install.inf"
+Copy-Item -Path "git.inf" -Destination $gitInstallInfPath -Force
+Add-Content -Path $gitInstallInfPath -Value "Dir=$($gitPath)"
 
 # get and install Git
 Write-Host " Downloading GIT installer ..." -ForegroundColor Yellow
 curl -o "./GitInstall.exe" "https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe"
 
 Write-Host " Installing GIT at ${gitPath}.." -ForegroundColor Yellow
-./GitInstall.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOADINF="git.inf"
+./GitInstall.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOADINF="$gitInstallInfPath"
 
 Write-Host " Updating Path..." -ForegroundColor Yellow
 
@@ -228,6 +294,4 @@ Write-Host " VS-Code started, opening test folder $testPath." -ForegroundColor Y
 Write-Host " Installation complete.  You can now use the portable instance of PYTHON, VS-Code and GIT in $mqitPath." -ForegroundColor Green
 Write-Host " To use the virtual environment, run the command: & $activateEnvCmd" -ForegroundColor Green
 Write-Host " To run the test notebook, run the command: & $codeExe --folder-uri 'file://$testPath' --user-data-dir $testPath" -ForegroundColor Green
-
-
 
