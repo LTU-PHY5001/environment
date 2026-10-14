@@ -1,0 +1,4 @@
+# Optional tools used in other workshops, not required by the exam.
+-r requirements.txt
+ipympl==0.10.0
+pyQuirk==0.1.7b0

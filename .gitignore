@@ -1,3 +1,9 @@
 .DS_STORE
 replace*tag.sh
 junk/*
+
+mqit/
+__pycache__/
+.ipynb_checkpoints/
+GitInstall.exe
+MQIT-Portable.zip

@@ -6,7 +6,8 @@ param (
     [switch]$Force
 )
 
-$currentDirectory = Get-Location
+$ErrorActionPreference = 'Stop'
+$currentDirectory = $PSScriptRoot
 $mqitPath = "$currentDirectory\mqit"
 $pythonVersion = "3.12.9"
 $pythonPath = "$mqitPath\python-$($pythonVersion)-embed-amd64"
@@ -75,11 +76,17 @@ $pathEntriesToRemove = @(
 
 Remove-PathEntries -Target ([System.EnvironmentVariableTarget]::Process) -EntriesToRemove $pathEntriesToRemove
 Remove-PathEntries -Target ([System.EnvironmentVariableTarget]::User) -EntriesToRemove $pathEntriesToRemove
-Remove-PathEntries -Target ([System.EnvironmentVariableTarget]::Machine) -EntriesToRemove $pathEntriesToRemove
 
-if (Test-Path $kernelSpecPath) {
-    Write-Host " Removing Jupyter kernel spec at $kernelSpecPath"
-    Remove-Item -Path $kernelSpecPath -Recurse -Force
+
+if (Test-Path "$kernelSpecPath\kernel.json") {
+    $kernel = Get-Content "$kernelSpecPath\kernel.json" -Raw | ConvertFrom-Json
+    $ownedPython = Join-Path $mqitPath 'mqit-env\Scripts\python.exe'
+    if ($kernel.argv[0] -eq $ownedPython) {
+        Write-Host " Removing this installation's kernel spec at $kernelSpecPath"
+        Remove-Item -LiteralPath $kernelSpecPath -Recurse -Force
+    } else {
+        Write-Host 'Retaining mqit_kernel: it belongs to another installation.'
+    }
 }
 
 if (Test-Path $gitInstallerPath) {

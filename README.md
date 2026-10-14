@@ -1,91 +1,73 @@
-# Scripts for configuring MQIT software environment on Windows 10
+# MQIT course environment for Windows
 
-This repository contains scripts that can be used to configure a development environment on Windows 10 for workshop activities on in MQIT subjects. The instructions are specifically for LTU laboratory computers in the SCEMS School.
+This installs the local VS Code, Python, Jupyter kernel, Git and Microsoft QDK environment used by PHY5001. The default setup contains the exam tools only; extra workshop tools are optional. It targets **64-bit Windows x64** and PowerShell **5.1 or 7**. No Azure account or quantum hardware is required.
 
-The development environment is based on Azure Quantum Development kit with Python and Jupyter.  Visual Studio Code will be used to write, debug and execute code in Q# and Python. 
+## Install before classes or the exam
 
-For our purposes it is convenient to use a 'portable' instance of VS Code that is independent of most of the software pre-installed on the LTU laboratory computers. The required VS-Code extensions will be installed, a python virtual environment created together with Python and Q# kernels created for use with Jupyter notebooks.  
+1. Use the installer revision supplied by teaching staff. Download/extract the **complete repository**, including `Setup.Common.ps1`, `requirements.txt`, `git.inf` and `test/`. Do not mix files from different releases. The former `MQIT-Portable` tag does not acquire fixes made on `main`; staff must publish and distribute a new tested release.
+2. Extract into a writable local folder, preferably outside OneDrive/network folders. Keep it there: virtual environments and Jupyter kernel registrations contain absolute paths and cannot safely be moved by copying.
+3. Open PowerShell in the extracted folder and run:
 
-## <a name="instructions"></a> Instructions for Installation on PS1 Laboratory Computers
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+   ```
 
-1. Open Powershell.
+   This execution-policy setting is limited to this process. If institutional policy blocks installation, ask IT. Installation does not require changing system Python or administrator privileges.
+4. Wait for **Setup checks passed**. A failure stops setup and prints the failing step. Correct it and rerun the same command; successful steps and downloads are reused. Do not proceed merely because VS Code can open.
+5. In the course VS Code, open `test/testQ.ipynb`, select **MQIT (Python 3.12)** (registered as `mqit_kernel`) and run every cell. Check the Q# result and click the widget to verify frontend communication. Allow the repository's code to run when workspace/notebook trust prompts appear.
 
-    You can press <kbd>windows</kbd>+<kbd>x</kbd> and choose ''Windows Powershell'' or press <kbd>i</kbd>.
+The installer supplies embedded CPython **3.12.9**, a `mqit/mqit-env` virtual environment, the Python/Jupyter/QDK VS Code extensions, and the eight pinned direct dependencies in `requirements.txt`. `qsharp` is retained as a compatibility shim for older course notebooks; new code uses `from qdk import qsharp`. It does not install the legacy .NET IQ# kernel or a JupyterLab server. VS Code is the notebook frontend.
 
-2. Get [MQIT-Portable](https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip)
+## Launch for subsequent sessions
 
-    In Powershell enter the following command (copy and paste it) to download and unzip a file containing everything you need:
+From the installer folder:
 
-    ```
-    curl -o MQIT-Portable.zip https://github.com/LTU-PHY5001/environment/archive/refs/tags/MQIT-Portable.zip
-    Expand-Archive -Path .\MQIT-Portable.zip
-    
-    
-    ```
+```powershell
+.\launch.ps1 -Folder "C:\path\to\your\assignment-repository"
+```
 
+The launcher opens the portable VS Code and sets PATH for its process to the course Python and Git. Select **MQIT (Python 3.12)** as the notebook kernel. If its display name differs, select `mqit\mqit-env\Scripts\python.exe` explicitly. Avoid opening a different installed VS Code by accident.
 
-3. Run installation script:
+In the VS Code terminal, verify `git --version` and configure your own Git identity and GitHub authentication. The installer cannot validate access to a student's Classroom50 repository. Use a practice assignment to test an actual commit and push before the exam.
 
-    Run 
+## Optional workshop tools
 
-    ```
-    cd MQIT-Portable\environment-MQIT-Portable\
-    .\install.ps1
-    ```
+The exam and QDK tests need only the default installation. For classes that use interactive Matplotlib plots or pyQuirk:
 
-    This will install portable versions of Python, VS-Code and Git at the relative path .\MQIT-Portable\environment-MQIT-Portable\mqit.  This step may take about 5 minutes.
+```powershell
+.\install.ps1 -IncludeWorkshopTools
+```
 
-5. Launch the installed version of VS-Code
+These add `ipympl` and `pyQuirk` through `requirements-workshops.txt`; their dependencies can increase download size. Rerunning without the switch does not remove previously installed tools. Other teaching software should get a separate explicitly selected requirements file rather than becoming an exam prerequisite.
 
-    Launch VS-Code from .\mqit\VSCode\code.exe using the following command:
+## Repeated installation and troubleshooting
 
-    ```
-    & ".\mqit\VSCode\code.exe" .\test
-    ```
+- Existing Python, virtual environment, Git and VS Code are reused. The script reconciles pinned direct Python packages, checks dependencies, tests Q#, and installs missing extensions. Close course VS Code/notebooks before changing installed packages.
+- Downloads and pip's cache live under `mqit/cache`. PowerShell download progress is disabled to avoid its overhead. A failed download's `.partial` file is removed. If an archive itself is corrupt, delete that specific cached archive and rerun. A broken existing Python/Git/VS Code is reported; it is not silently deleted.
+- The Git installer is signature-checked, awaited, and checked for success. Downloads are over HTTPS. New installations use the latest Git release; subsequent runs reuse the installed Git/cache. Ask staff to manage updates between assessments.
+- `mqit/requirements.installed.txt` records actual installed Python packages, and `mqit/installation.json` records Python, Git, VS Code and extension versions. Share these with staff for diagnosis. No packages are skipped after failed installations.
+- Run diagnostics using the intended interpreter:
 
-    The argument ``.\test`` tells VS-Code to open in a folder that we created in step 4.
+  ```powershell
+  & .\mqit\mqit-env\Scripts\python.exe -m pip check
+  & .\mqit\mqit-env\Scripts\python.exe .\test\smoke_test.py
+  ```
 
-6. Install VS-Code Extensions
+- If a kernel points at a deleted/moved installation, rerun setup from the intended location to replace its registration. Do not copy a working virtual environment to a different path.
+- `install.ps1 -NoLaunch` performs setup without opening VS Code. `-VSCodeVersion 1.100.3` illustrates how to request an exact archive version for a *fresh* installation; use a staff-tested version. It does not replace an existing VS Code installation. The default downloads stable VS Code once. Extensions remain independently versioned; staff must freeze the validated lab image before the exam.
 
-    To install required extensions, open the 'Extensions' view in the VS Code sidebar, or press F1 and select "Extensions: Install Extensions" from the quick menu, and search for the following:
+## Staff validation and release
 
-    - Python ([ms-python.python](https://marketplace.visualstudio.com/items?itemName=ms-python.python))
-    - Jupyter ([ms-toolsai.jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter))
-    - Azure Quantum Development Kit ([quantum.qsharp-lang-vscode](https://marketplace.visualstudio.com/items?itemName=quantum.qsharp-lang-vscode))
+Run `test/Test-Setup.ps1` for helper tests. Test a clean installation and a second cached run on the actual lab Windows image in PowerShell 5.1 and 7, including a path containing spaces and a non-administrator account. Verify all notebook cells, live widget clicks, Git authentication and a real Classroom50 submission. Test interrupted downloads and blocked network access. Do not distribute before this Windows acceptance run.
 
-    For more detailed instructions on installing extensions, see:  [Using Extensions in VS Code](https://code.visualstudio.com/docs/introvideos/extend).
+Eight direct requirements are pinned, but transitive versions and fresh Git/VS Code/extensions may change. After validating the lab image, retain its `requirements.installed.txt`, downloaded artifacts and version manifest, or produce a Windows-specific locked wheelhouse. Cross-platform pip resolution is useful for checking wheels but does not fully simulate Windows dependency markers. Publish a new immutable installer release and update teaching links to it.
 
-6.  Test:
-   
-    Open the Jupyter notebook `test\testQ.ipynb' in VS-Code.  It should be listed in the file 'Explorer' in VS-Code. If not, open the folder where it can be found using 'FILE->Open Folder...' and choose the test folder path (.\MQIT-Portable\environment-MQIT-Portable)
+## Uninstall
 
-    Follow the instructions in the Jupyter notebook 'testQ.ipynb' for testing that you can use Q# and Python. 
-    
-    If the code in the Jupyter notebook executes without an error you are ready to use the MQIT software environment for classes and assignments.
+Close the course VS Code and kernels first. From this installer folder run:
 
+```powershell
+.\uninstall.ps1
+```
 
-##  Optional Configuration step 
-
-    You can move the portable versions of Python and VS-Code by copying the MQIT-Portable directory to  another location (e.g. your oneDrive folder or external disk).   You will be able to launch VS-Code from that location next time you use the  Note that you will need to update PATH environment variables for code.exe and python to be conveniently used.
-
-##  Using the Python environment from a terminal
-
-    You can activate the virtual python environment configured by the above scripts by running the following command from the location where you installed or relocated the mqit folder:
-
-    ```
-    .\mqit\mqit-env\activate
-    ```
-
-##  Uninstalling
-
-    To remove the portable Python, VS Code, Git installation, generated installer files, and the `mqit_kernel` Jupyter kernel spec, run:
-
-    ```
-    .\uninstall.ps1
-    ```
-
-    For a non-interactive uninstall, run:
-
-    ```
-    .\uninstall.ps1 -Force
-    ```
+It asks for confirmation. `-Force` skips that prompt. It removes this folder's `mqit` installation and its kernel registration only if that registration belongs to this installation. Keep assignment repositories outside `mqit`; uninstalling removes everything in that directory, including its cache. It does not remove another installation's kernel or change machine-wide PATH.
