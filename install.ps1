@@ -74,7 +74,7 @@ try {
         $installer = Join-Path $cachePath 'GitInstall.exe'
         if (-not (Test-Path -LiteralPath $installer)) {
             $headers = @{ 'User-Agent' = 'LTU-PHY5001-Setup'; 'Accept' = 'application/vnd.github+json' }
-            $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/git-for-windows/git/releases/latest' -Headers $headers
+            $release = Get-RemoteJson -Uri 'https://api.github.com/repos/git-for-windows/git/releases/latest' -Headers $headers
             $assets = @($release.assets | Where-Object { $_.name -match '^Git-[\d.]+-64-bit\.exe$' })
             if ($assets.Count -ne 1) { throw 'Cannot identify the official Git x64 installer.' }
             Get-CachedDownload $assets[0].browser_download_url $installer

@@ -4,21 +4,11 @@ This installs the local VS Code, Python, Jupyter kernel, Git and Microsoft QDK e
 
 ## Install before classes or the exam
 
-1. **Open PowerShell:** press the Windows key, type **Windows PowerShell**, and open it as your normal user. **Copy and paste the entire command block below, then press Enter** to download the course files, extract them and start installation. You do not need Git installed first.
+1. **Open PowerShell:** press the Windows key, type **Windows PowerShell**, and open it as your normal user. **Copy and paste both lines below, then press Enter.** They download and run the small setup script, which downloads the course files, extracts them and starts installation. You do not need Git installed first.
 
    ```powershell
-   & {
-       $ErrorActionPreference = 'Stop'
-       $ProgressPreference = 'SilentlyContinue'
-       [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-       $mqitSetupRoot = Join-Path $env:LOCALAPPDATA 'MQIT'
-       $mqitArchive = Join-Path $mqitSetupRoot 'MQIT-Portable.zip'
-       New-Item -ItemType Directory -Path $mqitSetupRoot -Force | Out-Null
-       Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/LTU-PHY5001/environment/releases/download/MQIT-Portable/MQIT-Portable.zip' -OutFile $mqitArchive
-       Expand-Archive -LiteralPath $mqitArchive -DestinationPath $mqitSetupRoot -Force
-       Set-Location -LiteralPath (Join-Path $mqitSetupRoot 'MQIT-Portable')
-       powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
-   }
+   curl.exe -fL --retry 3 https://github.com/LTU-PHY5001/environment/releases/download/MQIT-Portable/bootstrap.ps1 -o "$env:TEMP\mqit-bootstrap.ps1"
+   if ($LASTEXITCODE -eq 0) { powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\mqit-bootstrap.ps1" }
    ```
 
    The files are installed under `%LOCALAPPDATA%\MQIT\MQIT-Portable`, outside OneDrive. To find this folder later, paste that path into File Explorer's address bar. Keep the folder in this location; moving it can break the Python environment and notebook kernel. The execution-policy setting applies only to the installer process; administrator privileges are not required. If institutional policy blocks installation, ask IT.
@@ -53,7 +43,7 @@ These add `ipympl` and `pyQuirk` through `requirements-workshops.txt`; their dep
 ## Repeated installation and troubleshooting
 
 - Existing Python, virtual environment, Git and VS Code are reused. The script reconciles pinned direct Python packages, checks dependencies, tests Q#, and installs missing extensions. Close course VS Code/notebooks before changing installed packages.
-- Downloads and pip's cache live under `mqit/cache`. PowerShell download progress is disabled to avoid its overhead. A failed download's `.partial` file is removed. If an archive itself is corrupt, delete that specific cached archive and rerun. A broken existing Python/Git/VS Code is reported; it is not silently deleted.
+- Downloads and pip's cache live under `mqit/cache`. Downloads use Windows `curl.exe`, including the Git release lookup; `Invoke-WebRequest` and `Invoke-RestMethod` are not required. A failed download's `.partial` file is removed. If an archive itself is corrupt, delete that specific cached archive and rerun. A broken existing Python/Git/VS Code is reported; it is not silently deleted.
 - If an older installer stops just after `git --version` with **Not Found**, update the repository scripts in the same folder and rerun `install.ps1`. The corrected VS Code URL uses `latest` as the release and `stable` as the channel. Keep the existing `mqit` folder so Python, Git and cached downloads are reused. Errors now identify the setup stage and failed download URL.
 - The Git installer is signature-checked, awaited, and checked for success. Downloads are over HTTPS. New installations use the latest Git release; subsequent runs reuse the installed Git/cache. Ask staff to manage updates between assessments.
 - `mqit/requirements.installed.txt` records actual installed Python packages, and `mqit/installation.json` records Python, Git, VS Code and extension versions. Share these with staff for diagnosis. No packages are skipped after failed installations.
