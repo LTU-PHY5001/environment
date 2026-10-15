@@ -4,17 +4,27 @@ This installs the local VS Code, Python, Jupyter kernel, Git and Microsoft QDK e
 
 ## Install before classes or the exam
 
-1. Use the installer revision supplied by teaching staff. Download/extract the **complete repository**, including `Setup.Common.ps1`, `requirements.txt`, `git.inf` and `test/`. Do not mix files from different releases. The former `MQIT-Portable` tag does not acquire fixes made on `main`; staff must publish and distribute a new tested release.
-2. Extract into a writable local folder, preferably outside OneDrive/network folders. Keep it there: virtual environments and Jupyter kernel registrations contain absolute paths and cannot safely be moved by copying.
-3. Open PowerShell in the extracted folder and run:
+1. **Open PowerShell:** press the Windows key, type **Windows PowerShell**, and open it as your normal user. **Copy and paste the entire command block below, then press Enter** to download the course files, extract them and start installation. You do not need Git installed first.
 
    ```powershell
-   powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+   & {
+       $ErrorActionPreference = 'Stop'
+       $ProgressPreference = 'SilentlyContinue'
+       [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+       $mqitSetupRoot = Join-Path $env:LOCALAPPDATA 'MQIT'
+       $mqitArchive = Join-Path $mqitSetupRoot 'MQIT-Portable.zip'
+       New-Item -ItemType Directory -Path $mqitSetupRoot -Force | Out-Null
+       Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/LTU-PHY5001/environment/releases/download/MQIT-Portable/MQIT-Portable.zip' -OutFile $mqitArchive
+       Expand-Archive -LiteralPath $mqitArchive -DestinationPath $mqitSetupRoot -Force
+       Set-Location -LiteralPath (Join-Path $mqitSetupRoot 'MQIT-Portable')
+       powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+   }
    ```
 
-   This execution-policy setting is limited to this process. If institutional policy blocks installation, ask IT. Installation does not require changing system Python or administrator privileges.
-4. Wait for **Setup checks passed**. A failure stops setup and prints the failing step. Correct it and rerun the same command; successful steps and downloads are reused. Do not proceed merely because VS Code can open.
-5. In the course VS Code, open `test/testQ.ipynb`, select **MQIT (Python 3.12)** (registered as `mqit_kernel`) and run every cell. Check the Q# result and click the widget to verify frontend communication. Allow the repository's code to run when workspace/notebook trust prompts appear.
+   The files are installed under `%LOCALAPPDATA%\MQIT\MQIT-Portable`, outside OneDrive. To find this folder later, paste that path into File Explorer's address bar. Keep the folder in this location; moving it can break the Python environment and notebook kernel. The execution-policy setting applies only to the installer process; administrator privileges are not required. If institutional policy blocks installation, ask IT.
+
+2. Wait for **Setup checks passed**. If a download or setup step fails, stop and report the error to teaching staff. After the problem is resolved, paste the block above again; the installer reuses existing installed tools and cached downloads.
+3. In the course VS Code, open `test/testQ.ipynb`, select **MQIT (Python 3.12)** (registered as `mqit_kernel`) and run every cell. Check the Q# result and click the widget to verify frontend communication. Allow the repository's code to run when workspace/notebook trust prompts appear.
 
 The installer supplies embedded CPython **3.12.9**, a `mqit/mqit-env` virtual environment, the Python/Jupyter/QDK VS Code extensions, and the eight pinned direct dependencies in `requirements.txt`. `qsharp` is retained as a compatibility shim for older course notebooks; new code uses `from qdk import qsharp`. It does not install the legacy .NET IQ# kernel or a JupyterLab server. VS Code is the notebook frontend.
 
